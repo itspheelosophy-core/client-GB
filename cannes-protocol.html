@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cannes Follow-Up Protocol — Gabby Beckford</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0e0e0e;
+  --white: #ffffff;
+  --off-white: #f7f5f2;
+  --warm-gray: #e8e4df;
+  --border: #d9d4ce;
+  --mid-gray: #b0aaa3;
+  --text-muted: #6e6860;
+  --accent: #F97508;
+  --accent-dark: #c85d00;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--off-white);
+  color: var(--black);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* PAGE HEADER */
+.page-header {
+  background: var(--black);
+  padding: 36px 48px 32px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.header-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 8px;
+}
+.header-title {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.1;
+}
+.header-title em { font-style: italic; }
+.header-right {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  text-align: right;
+  line-height: 1.5;
+}
+
+/* MAIN LAYOUT */
+.page-body {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 40px 32px 80px;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* PATH SELECTOR CARDS */
+.path-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+@media (max-width: 640px) {
+  .path-row { grid-template-columns: 1fr; }
+  .page-header { padding: 28px 24px; }
+  .page-body { padding: 28px 20px 60px; }
+  .tab-row { flex-wrap: wrap; }
+  .action-grid { grid-template-columns: 1fr; }
+  .tracker-grid { grid-template-columns: 1fr; }
+  .extract-cols { columns: 1; }
+}
+
+.path-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  padding: 24px 24px 20px;
+  cursor: pointer;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  user-select: none;
+}
+.path-card:hover { border-color: var(--mid-gray); }
+.path-card.active {
+  border-color: var(--black);
+  box-shadow: 0 0 0 1px var(--black);
+}
+.path-card.active-dark {
+  background: var(--black);
+  border-color: var(--black);
+}
+.path-card .card-tag {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 8px;
+}
+.path-card .card-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 6px;
+  color: var(--black);
+}
+.path-card.active-dark .card-title { color: var(--white); }
+.path-card .card-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.path-card.active-dark .card-sub { color: rgba(255,255,255,0.5); }
+
+/* DETAIL PANEL */
+.detail-panel {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  padding: 28px 28px 24px;
+  margin-top: 12px;
+  display: none;
+}
+.detail-panel.visible { display: block; }
+
+/* TABS */
+.tab-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+.tab-btn {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 14px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--black); }
+.tab-btn.active {
+  color: var(--black);
+  border-bottom-color: var(--accent);
+}
+
+/* TAB CONTENT */
+.tab-content { display: none; }
+.tab-content.visible { display: block; }
+
+/* STEP LIST */
+.step-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+.step-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.step-list li:first-child { border-top: 1px solid var(--border); }
+.step-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 24px;
+  color: var(--warm-gray);
+  line-height: 1;
+  min-width: 28px;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.step-strong { color: var(--black); font-weight: 500; }
+
+/* BADGES */
+.badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.badge-gold  { background: #fde8d0; color: #a34200; }
+.badge-dark  { background: var(--black); color: var(--white); }
+.badge-warm  { background: var(--warm-gray); color: var(--text-muted); border: 1px solid var(--border); }
+.badge-coral { background: #faece7; color: #712B13; }
+.badge-teal  { background: #e1f5ee; color: #085041; }
+
+/* TEMPLATE BLOCK */
+.template-block {
+  background: var(--off-white);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  padding: 16px 20px;
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.template-block strong { color: var(--black); font-weight: 500; }
+.template-block + .template-block { margin-top: 10px; }
+
+/* EXTRACT LIST (Screenshot intake) */
+.extract-cols {
+  columns: 2;
+  column-gap: 24px;
+  margin-top: 10px;
+  list-style: none;
+}
+.extract-cols li {
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  break-inside: avoid;
+}
+.extract-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* ACTION GRID */
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+.action-card {
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 18px;
+  background: var(--white);
+  transition: border-color 0.15s;
+}
+.action-card:hover { border-color: var(--black); }
+.action-card-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--black);
+  margin-bottom: 3px;
+}
+.action-card-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.who-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+.who-chip {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 2px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--text-muted);
+}
+.who-chip.selected {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+}
+.who-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+/* TRACKER GRID */
+.tracker-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+.tracker-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  background: var(--off-white);
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.tracker-field-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+.tracker-field-value {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* SECTION DIVIDER */
+.section-divider {
+  text-align: center;
+  font-size: 16px;
+  letter-spacing: 6px;
+  color: var(--mid-gray);
+  margin: 36px 0 32px;
+}
+
+/* INTRO TEXT */
+.panel-intro {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 18px;
+  max-width: 560px;
+}
+
+/* FOOTER */
+.page-footer {
+  text-align: center;
+  padding: 28px 32px;
+  background: var(--black);
+  color: rgba(255,255,255,0.3);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.page-footer span {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0;
+  text-transform: none;
+  display: block;
+  margin-bottom: 6px;
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div>
+    <b class="header-eyebrow">Internal Operations Document</b>
+    <h1 class="header-title"><em>Cannes</em> Follow-Up Protocol</h1>
+  </div>
+  <div class="header-right">
+    Gabby Beckford 〰️ Packs Light LLC<br>
+    Cannes · June 2025
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="page-body">
+
+  <!-- INTRO -->
+  <div style="margin-bottom: 28px;">
+    <span class="eyebrow">Overview</span>
+    <p style="font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--black); line-height: 1.4; max-width: 580px;">Two paths. Every contact Gabby makes at Cannes flows through one of them.</p>
+  </div>
+
+  <!-- PATH SELECTOR -->
+  <div style="margin-bottom: 8px;">
+    <span class="eyebrow">Select a path to expand</span>
+  </div>
+  <div class="path-row">
+    <div class="path-card" id="card-a" onclick="activatePath('a')">
+      <span class="card-tag">Path A</span>
+      <h2 class="card-title">Landing Page Flow</h2>
+      <p class="card-sub">Contact is directed to the landing page, selects During Cannes or After Cannes, and is routed accordingly</p>
+    </div>
+    <div class="path-card" id="card-b" onclick="activatePath('b')">
+      <span class="card-tag">Path B</span>
+      <h2 class="card-title">WhatsApp Capture Flow</h2>
+      <p class="card-sub">Gabby sends name, LinkedIn screenshot, or selfie via WhatsApp. Team preps and executes the next touchpoint.</p>
+    </div>
+  </div>
+
+  <!-- PANEL A -->
+  <div class="detail-panel" id="panel-a">
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="showTab('a','flow',this)">Flow</button>
+      <button class="tab-btn" onclick="showTab('a','cannes',this)">During Cannes</button>
+      <button class="tab-btn" onclick="showTab('a','after',this)">After Cannes</button>
+      <button class="tab-btn" onclick="showTab('a','templates',this)">Email Templates</button>
+    </div>
+
+    <!-- A: FLOW -->
+    <div class="tab-content visible" id="a-flow">
+      <p class="panel-intro">Contact receives Gabby's landing page link in person, via QR code, or NFC card. They land on the page and self-select their intent.</p>
+      <ul class="step-list">
+        <li>
+          <span class="step-num">1</span>
+          <span>Gabby shares her landing page link in person via QR code, NFC card, or text on the spot</span>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <span>Contact lands on the page and sees two clear options: <span class="badge badge-dark">During Cannes</span> and <span class="badge badge-warm">After Cannes</span></span>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <span><span class="step-strong">If "During Cannes" is selected:</span> Contact is taken down to Gabby's Speaking Engagements section on the page to connect this week</span>
+        </li>
+        <li>
+          <span class="step-num">4</span>
+          <span><span class="step-strong">If "After Cannes" is selected:</span> Page smooth-scrolls to the contact form further down. Contact fills in their name, email, company, interest area, and how they met Gabby. Auto-confirm sent immediately.</span>
+        </li>
+        <li>
+          <span class="step-num">5</span>
+          <span>All form submissions land in the Cannes 2025 Contact Tracker. Campaign manager reviews within 24 hours, tags by interest and tier, and queues the appropriate follow-up action.</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- A: DURING CANNES -->
+    <div class="tab-content" id="a-cannes">
+      <p class="panel-intro">Contact selects "During Cannes" and is scrolled down to Gabby's Speaking Engagements section on the page to explore how to connect this week.</p>
+      <ul class="step-list">
+        <li>
+          <span class="step-num">1</span>
+          <span>Contact clicks <span class="badge badge-dark">During Cannes</span> and the page scrolls to the Speaking Engagements section where they can see where Gabby is appearing this week and how to connect on the ground</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- A: AFTER CANNES -->
+    <div class="tab-content" id="a-after">
+      <p class="panel-intro">Contact selects "After Cannes" and is scrolled to the contact form. They fill it out and hear from the team within 48 hours.</p>
+      <ul class="step-list">
+        <li>
+          <span class="step-num">1</span>
+          <span>Contact clicks <span class="badge badge-warm">After Cannes</span> and the page scrolls to the contact form section</span>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <span>Contact fills out: name, email, company, title, interest area (Partnership / Speaking / Press / Community / General), notes, and how they met Gabby at Cannes</span>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <span>Auto-confirm sent immediately: warm, on-brand message with links to @packslight and The Exit Row newsletter</span>
+        </li>
+        <li>
+          <span class="step-num">4</span>
+          <span>Campaign manager tags by interest and tier within 24 hours, queues personalized follow-up within 48 hours based on what they shared</span>
+        </li>
+      </ul>
+      <div class="template-block">
+        <strong>Auto-confirm subject:</strong> You're in, talk soon 👋<br><br>
+        Hey [Name]! So glad you reached out. I'll be in touch shortly once I'm back from Cannes and settled. In the meantime, explore more of my work at packslight.com or catch me on Instagram @packslight. Good things ahead. Gabby
+      </div>
+    </div>
+
+    <!-- A: TEMPLATES -->
+    <div class="tab-content" id="a-templates">
+      <p class="panel-intro">Customized outreach sent within 48 hours based on the interest tag from the form submission.</p>
+      <div class="template-block">
+        <strong>Partnership follow-up</strong><br>
+        Hi [Name], great meeting you at Cannes! I'd love to explore how we might collaborate. I work with brands like Meta, Delta, and Mastercard on culturally resonant creator campaigns. Here's a quick look at how I approach it: [media kit or link]. Can we set up a 20-minute intro call? [calendar link]
+      </div>
+      <div class="template-block">
+        <strong>Speaking inquiry follow-up</strong><br>
+        Hi [Name], lovely to connect at Cannes. I saw you're putting together [event] and I'd love to be considered for a keynote spot. My speaker page has everything you need: gabbybeckford.com/speaker. Happy to jump on a quick call if that's helpful.
+      </div>
+      <div class="template-block">
+        <strong>Press / media follow-up</strong><br>
+        Hi [Name], so great to meet you at Cannes. I'd love to connect further for [publication/outlet]. I've been featured in NYT, CNBC Make It, CNN, and Newsweek and I'm happy to share a press kit or jump on a brief call. What works best for you?
+      </div>
+      <div class="template-block">
+        <strong>General "let's stay in orbit" follow-up</strong><br>
+        Hi [Name], so glad we got to connect at Cannes. Felt like a conversation worth continuing. I'll drop a LinkedIn request so we stay on each other's radar. If anything comes up where our worlds might overlap, don't hesitate to reach out. Gabby
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">〰️〰️〰️</div>
+
+  <!-- PANEL B -->
+  <div class="detail-panel" id="panel-b">
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="showTab('b','intake',this)">Intake Types</button>
+      <button class="tab-btn" onclick="showTab('b','actions',this)">Action Menu</button>
+      <button class="tab-btn" onclick="showTab('b','tracker',this)">Tracker Fields</button>
+    </div>
+
+    <!-- B: INTAKE -->
+    <div class="tab-content visible" id="b-intake">
+      <p class="panel-intro">Gabby sends one of the following via WhatsApp. Team logs the contact immediately and triggers the appropriate next action.</p>
+      <ul class="step-list">
+
+        <li>
+          <span class="badge badge-dark" style="margin-top:3px;">Screenshot</span>
+          <span>
+            LinkedIn profile screenshot. Team extracts:
+            <ul class="extract-cols" style="margin-top: 10px;">
+              <li><span class="extract-dot"></span>Name</li>
+              <li><span class="extract-dot"></span>Title</li>
+              <li><span class="extract-dot"></span>Company</li>
+              <li><span class="extract-dot"></span>LinkedIn URL</li>
+            </ul>
+          </span>
+        </li>
+
+        <li>
+          <span class="badge badge-gold" style="margin-top:3px;">Name + Info</span>
+          <span>Gabby types "Name, Title, Company, [email or contact]." Team creates the contact record and drafts outreach based on any context Gabby includes.</span>
+        </li>
+        <li>
+          <span class="badge badge-coral" style="margin-top:3px;">Selfie</span>
+          <span>Photo with the person. Team holds the record until Gabby follows up with context: "we talked about X, follow up about Y." Action is queued from there.</span>
+        </li>
+        <li>
+          <span class="badge badge-teal" style="margin-top:3px;">Voice Note</span>
+          <span>Gabby records a quick debrief on the person. Team transcribes, extracts the action item, creates the contact record, and confirms back via WhatsApp.</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- B: ACTIONS -->
+    <div class="tab-content" id="b-actions">
+      <p class="panel-intro">Gabby or the team selects one or more actions based on contact type and on-ground discussions.</p>
+
+      <div class="who-toggle">
+        <button class="who-chip selected" id="chip-gabby" onclick="selectWho('gabby')">Gabby</button>
+        <button class="who-chip" id="chip-team" onclick="selectWho('team')">Team</button>
+        <span class="who-label" id="who-label">Gabby selects and initiates the action directly</span>
+      </div>
+
+      <div class="action-grid">
+        <div class="action-card">
+          <p class="action-card-title">☕ Lunch or Coffee Invite</p>
+          <p class="action-card-sub">Warm, personal email to meet IRL or virtually. Casual tone, specific hook from the conversation.</p>
+        </div>
+        <div class="action-card">
+          <p class="action-card-title">🔗 LinkedIn Connect</p>
+          <p class="action-card-sub">Connection request with a short personalized note referencing Cannes or the shared context.</p>
+        </div>
+        <div class="action-card">
+          <p class="action-card-title">📹 Virtual Coffee</p>
+          <p class="action-card-sub">Calendar link with a short personal hook. 20-minute format, no hard agenda, just continuing the conversation.</p>
+        </div>
+        <div class="action-card">
+          <p class="action-card-title">📨 Topic Follow-Up</p>
+          <p class="action-card-sub">Reference the specific thing discussed. Share a relevant resource, insight, or direct ask tied to that conversation.</p>
+        </div>
+        <div class="action-card">
+          <p class="action-card-title">🔔 Set Reminder</p>
+          <p class="action-card-sub">Tag a follow-up date in the tracker. No immediate outreach needed. Revisit when timing or opportunity aligns.</p>
+        </div>
+        <div class="action-card">
+          <p class="action-card-title">📄 Send Collab Materials</p>
+          <p class="action-card-sub">Share media kit, speaker one-sheet, or capabilities deck relevant to the contact's brand or role.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- B: TRACKER -->
+    <div class="tab-content" id="b-tracker">
+      <p class="panel-intro">Every contact captured via either path gets a record in the Cannes 2025 Contact Tracker. Fields below are required at minimum.</p>
+      <div class="tracker-grid">
+        <div class="tracker-field">
+          <span class="tracker-field-label">Full Name</span>
+          <span class="tracker-field-value">First + last. Note preferred name if different.</span>
+        </div>
+        <div class="tracker-field">
+          <span class="tracker-field-label">Title / Company</span>
+          <span class="tracker-field-value">Job title and brand or organization.</span>
+        </div>
+        <div class="tracker-field">
+          <span class="tracker-field-label">Contact Info</span>
+          <span class="tracker-field-value">Email, LinkedIn URL, or both.</span>
+        </div>
+        <div class="tracker-field">
+          <span class="tracker-field-label">Source</span>
+          <span class="tracker-field-value">Landing page form · WhatsApp screenshot · Name drop · Selfie · Voice note</span>
+        </div>
+        <div class="tracker-field">
+          <span class="tracker-field-label">Interest Tag</span>
+          <span class="tracker-field-value">Partnership · Speaking · Press · Community · General</span>
+        </div>
+        <div class="tracker-field">
+          <span class="tracker-field-label">Tier</span>
+          <span class="tracker-field-value">A — follow immediately · B — nurture · C — passive watch</span>
+        </div>
+        <div class="tracker-field">
+          <span class="tracker-field-label">Action Taken</span>
+          <span class="tracker-field-value">LinkedIn sent · Email drafted · Email sent · Call booked · Materials sent</span>
+        </div>
+        <div class="tracker-field">
+          <span class="tracker-field-label">Next Step + Date</span>
+          <span class="tracker-field-value">Next follow-up action and target send date.</span>
+        </div>
+        <div class="tracker-field" style="grid-column: span 2;">
+          <span class="tracker-field-label">Notes</span>
+          <span class="tracker-field-value">Context from the conversation, topics discussed, mutual connections, anything Gabby flagged via WhatsApp.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <span>Gabby Beckford 〰️ Packs Light LLC</span>
+  Internal use only · Cannes 2025 · partner@packslight.com
+</footer>
+
+<script>
+  function activatePath(path) {
+    const cards  = { a: document.getElementById('card-a'),  b: document.getElementById('card-b')  };
+    const panels = { a: document.getElementById('panel-a'), b: document.getElementById('panel-b') };
+
+    Object.keys(cards).forEach(k => {
+      cards[k].classList.remove('active', 'active-dark');
+      panels[k].classList.remove('visible');
+    });
+
+    cards[path].classList.add('active');
+    if (path === 'b') cards[path].classList.add('active-dark');
+    panels[path].classList.add('visible');
+  }
+
+  function showTab(panel, tab, btn) {
+    document.querySelectorAll('#panel-' + panel + ' .tab-content').forEach(el => el.classList.remove('visible'));
+    document.querySelectorAll('#panel-' + panel + ' .tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(panel + '-' + tab).classList.add('visible');
+    btn.classList.add('active');
+  }
+
+  function selectWho(who) {
+    document.getElementById('chip-gabby').classList.toggle('selected', who === 'gabby');
+    document.getElementById('chip-team').classList.toggle('selected', who === 'team');
+    const label = document.getElementById('who-label');
+    label.textContent = who === 'gabby'
+      ? 'Gabby selects and initiates the action directly'
+      : 'Team drafts the action and holds for Gabby\'s approval before sending';
+  }
+
+  // Default open
+  activatePath('a');
+</script>
+</body>
+</html>
